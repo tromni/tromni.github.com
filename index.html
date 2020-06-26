@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Convert v2.0</title>
+    <script type="text/javascript">
+        function convertLinks() {
+            var links = document.getElementById("linksInput").value;
+            var re = /.+?(\d{8,})\//gs;
+            var debug1 = /[a-z].+\n/g;
+			var debug2 = /\s\n/g;
+            var res = links.replace(re, "$1 ");
+            var resdebug1 = res.replace(debug1, "");
+			var resdebug2 = resdebug1.replace(debug2, "");
+            document.getElementById("result").innerHTML = resdebug2;
+            navigator.clipboard.writeText(resdebug2);
+        }
+		
+		function wrapPics() {
+			var picLinks = document.getElementById("picsInput").value;
+			var picFind = /(.*?jpg),{0,}\s{0,}/gs;
+			var wrappedPics = picLinks.replace(picFind, '<img src="$1" style="max-width: 850px; width: 100%"><br>');
+			document.getElementById("taggedPics").innerHTML = wrappedPics;
+			navigator.clipboard.writeText(wrappedPics);
+		}
+    </script>
+	<style type="text/css">
+	.tabs { width: 100%; padding: 0px; margin: 0 auto; }
+	.tabs>input { display: none; }
+	.tabs>div {
+		display: none;
+		padding: 12px;
+		border: 1px solid #C0C0C0;
+		background: #FFFFFF;
+	}
+	.tabs>label {
+		display: inline-block;
+		padding: 7px;
+		margin: 0 -5px -1px 0;
+		text-align: center;
+		color: #666666;
+		border: 1px solid #C0C0C0;
+		background: #E0E0E0;
+		cursor: pointer;
+	}
+	.tabs>input:checked + label {
+		color: #000000;
+		border: 1px solid #C0C0C0;
+		border-bottom: 1px solid #FFFFFF;
+		background: #FFFFFF;
+	}
+	#tab_1:checked ~ #txt_1,
+	#tab_2:checked ~ #txt_2,
+	#tab_3:checked ~ #txt_3,
+	#tab_4:checked ~ #txt_4 { display: block; }
+</style>
+</head>
+
+<body>
+<div class="tabs">
+    <input type="radio" name="inset" value="" id="tab_1" checked>
+    <label for="tab_1">Вытащить ID из ссылок</label>
+
+    <input type="radio" name="inset" value="" id="tab_2">
+    <label for="tab_2">Обернуть картинки тегами</label>
+<!-- 
+    <input type="radio" name="inset" value="" id="tab_3">
+    <label for="tab_3">Вкладка №3</label>
+
+    <input type="radio" name="inset" value="" id="tab_4">
+    <label for="tab_4">Вкладка №4</label>
+-->
+    <div id="txt_1">
+        
+    <p>Сюда ссылки на товары:</p>
+    <textarea id="linksInput" cols="100" rows="10"></textarea>
+    <p>Тут будет список ID:</p>
+    <textarea id="result" cols="100" rows="10"></textarea>
+    <p><input type="button" value=" Вытащить и скопировать ID " onclick="convertLinks()"></p>
+	
+    </div>
+    <div id="txt_2">
+        
+	<p>Сюда ссылки на картинки:</p>
+    <textarea id="picsInput" cols="100" rows="10"></textarea>
+    <p>Тут ссылки обернутся тегами:</p>
+    <textarea id="taggedPics" cols="100" rows="10"></textarea>
+    <p><input type="button" value=" Обернуть ссылками и скопировать " onclick="wrapPics()"></p>
+		
+    </div>
+<!--    
+	<div id="txt_3">
+        
+    </div>
+    <div id="txt_4">
+        
+    </div>
+-->
+</div>
+</body>
+
+</html>
